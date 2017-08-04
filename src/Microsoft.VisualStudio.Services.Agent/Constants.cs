@@ -149,8 +149,6 @@ namespace Microsoft.VisualStudio.Services.Agent
                 public static readonly string SourceRootMappingDirectory = "SourceRootMapping";
                 public static readonly string SourcesDirectory = "s";
                 public static readonly string TestResultsDirectory = "TestResults";
-                public static readonly string TestDirectory = "Test";
-                public static readonly string TestLogsDirectory = "TestLogs";
                 public static readonly string TopLevelTrackingConfigFile = "Mappings.json";
                 public static readonly string TrackingConfigFile = "SourceFolder.json";
             }

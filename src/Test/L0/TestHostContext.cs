@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Runtime.Loader;
 using System.Reflection;
 using System.Collections.Generic;
-using Constants = Microsoft.VisualStudio.Services.Agent.Constants;
 
 namespace Microsoft.VisualStudio.Services.Agent.Tests
 {
@@ -45,9 +44,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests
 
             // Setup the trace manager.
             TraceFileName = Path.Combine( 
-                Path.Combine(TestUtil.GetSrcPath(), 
-                             Constants.Build.Path.TestDirectory, 
-                             Constants.Build.Path.TestLogsDirectory), 
+                Path.Combine(TestUtil.GetSrcPath(), "Test", "TestLogs"), 
                 $"trace_{_suiteName}_{_testName}.log");
             if (File.Exists(TraceFileName))
             {
