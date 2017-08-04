@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Runtime.Loader;
 using System.Reflection;
 using System.Collections.Generic;
+using Constants = Microsoft.VisualStudio.Services.Agent.Constants;
 
 namespace Microsoft.VisualStudio.Services.Agent.Tests
 {
@@ -43,8 +44,10 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests
             _suiteName = _suiteName.Replace(".", "_");
 
             // Setup the trace manager.
-            TraceFileName = Path.Combine(
-                IOUtil.GetBinPath(),
+            TraceFileName = Path.Combine( 
+                Path.Combine(TestUtil.GetSrcPath(), 
+                             Constants.Build.Path.TestDirectory, 
+                             Constants.Build.Path.TestLogsDirectory), 
                 $"trace_{_suiteName}_{_testName}.log");
             if (File.Exists(TraceFileName))
             {
