@@ -547,7 +547,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests.Worker
         private void Setup([CallerMemberName] string name = "")
         {
             // Random work folder.
-            _workFolder = Path.Combine(IOUtil.GetBinPath(), $"_work_{Path.GetRandomFileName()}");
+            _workFolder = Path.Combine(_hc.GetDirectory(WellKnownDirectory.Bin), $"_work_{Path.GetRandomFileName()}");
 
             // Mocks.
             _jobServer = new Mock<IJobServer>();

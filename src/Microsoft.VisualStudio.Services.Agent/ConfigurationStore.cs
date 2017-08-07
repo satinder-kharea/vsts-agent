@@ -106,7 +106,7 @@ namespace Microsoft.VisualStudio.Services.Agent
             var currentAssemblyLocation = System.Reflection.Assembly.GetEntryAssembly().Location;
             Trace.Info("currentAssemblyLocation: {0}", currentAssemblyLocation);
 
-            _binPath = IOUtil.GetBinPath();
+            _binPath = HostContext.GetDirectory(WellKnownDirectory.Bin);
             Trace.Info("binPath: {0}", _binPath);
 
             RootFolder = IOUtil.GetRootPath();

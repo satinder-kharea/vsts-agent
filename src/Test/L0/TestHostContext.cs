@@ -154,6 +154,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Tests
 
         public string GetDirectory(WellKnownDirectory directory)
         {
+            // TODO: Not sure if we should always return GetTempPath here.
             string tempDir = Path.Combine(Path.GetTempPath(), directory.ToString());
             _tempDirectorys.Add(tempDir);
             return tempDir;
