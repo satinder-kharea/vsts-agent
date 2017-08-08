@@ -58,6 +58,8 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
             var xamlBuildClient = vssConnection.GetClient<XamlBuildHttpClient>();
             List<ServerBuildArtifact> buildArtifacts = null;
 
+            EnsureVersionBelongsToLinkedDefinition(artifactDefinition, buildClient, xamlBuildClient);
+
             try
             {
                 buildArtifacts = await buildClient.GetArtifactsAsync(buildArtifactDetails.Project, buildId);
@@ -123,6 +125,8 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
                     AccessToken = accessToken,
                     Project = projectId.ToString(),
                     TfsUrl = new Uri(tfsUrl),
+                    DefinitionName = artifactDetails["DefinitionName"],
+                    DefintionId = Convert.ToInt32(artifactDetails["DefinitionId"], CultureInfo.InvariantCulture)
                 };
             }
             else
@@ -239,6 +243,34 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
             else
             {
                 executionContext.Warning(StringUtil.Loc("RMArtifactTypeNotSupported", buildArtifact.Resource.Type));
+            }
+        }
+
+        private void EnsureVersionBelongsToLinkedDefinition(ArtifactDefinition artifactDefinition, BuildHttpClient buildClient, XamlBuildHttpClient xamlBuildClient)
+        {
+            var buildArtifactDetails = artifactDefinition.Details as BuildArtifactDetails;
+            if (buildArtifactDetails != null && buildArtifactDetails.DefintionId > 0)
+            {
+                var buildId = Convert.ToInt32(artifactDefinition.Version, CultureInfo.InvariantCulture);
+                TeamFoundation.Build.WebApi.Build build = null;
+
+                try
+                {
+                    build = buildClient.GetBuildAsync(buildArtifactDetails.Project, buildId).Result;
+                }
+                catch (AggregateException ex)
+                {
+                    if (ex.InnerException != null && ex.InnerException is BuildNotFoundException)
+                    {
+                        build = xamlBuildClient.GetBuildAsync(buildArtifactDetails.Project, buildId).Result;
+                    }
+                }
+
+                if (build != null && build.Definition.Id != buildArtifactDetails.DefintionId)
+                {
+                    string errorMessage = StringUtil.Loc("ArtifactNotFromLinkedDefinition", artifactDefinition.Name, buildArtifactDetails.DefinitionName);
+                    throw new ArtifactDownloadException(errorMessage);
+                }
             }
         }
     }
