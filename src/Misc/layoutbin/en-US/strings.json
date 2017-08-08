@@ -20,6 +20,7 @@
   "ArtifactDownloadFailed": "Failed to download the artifact from {0}.",
   "ArtifactLocationRequired": "Artifact location is required.",
   "ArtifactNameRequired": "Artifact Name is required.",
+  "ArtifactNotFromLinkedDefinition": "The build {0} does not belong to the linked build definition {1}",
   "ArtifactTypeRequired": "Artifact Type is required.",
   "AssociateArtifact": "Associate Artifact",
   "AssociateArtifactCommandNotSupported": "Associating server artifact is not supported in {0}.",
@@ -562,6 +563,5 @@
   "WindowsLogonAccountNameDescription": "User account to use for the service",
   "WindowsLogonPasswordDescription": "Password for the account {0}",
   "WorkFolderDescription": "work folder",
-  "Y": "Y",
-  "ArtifactNotFromLinkedDefintion": "The build {0} does not belong to the linked build definition {1}"
+  "Y": "Y"
 }

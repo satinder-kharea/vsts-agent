@@ -118,16 +118,26 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
 
             if (artifactDetails.TryGetValue("RelativePath", out relativePath))
             {
-                return new BuildArtifactDetails
+                var buildArtifactDetails = new BuildArtifactDetails
+                    {
+                        Credentials = vssCredentials,
+                        RelativePath = artifactDetails["RelativePath"],
+                        AccessToken = accessToken,
+                        Project = projectId.ToString(),
+                        TfsUrl = new Uri(tfsUrl)
+                    };
+
+                if (artifactDetails.ContainsKey("DefinitionName"))
                 {
-                    Credentials = vssCredentials,
-                    RelativePath = artifactDetails["RelativePath"],
-                    AccessToken = accessToken,
-                    Project = projectId.ToString(),
-                    TfsUrl = new Uri(tfsUrl),
-                    DefinitionName = artifactDetails["DefinitionName"],
-                    DefintionId = Convert.ToInt32(artifactDetails["DefinitionId"], CultureInfo.InvariantCulture)
-                };
+                    buildArtifactDetails.DefinitionName = artifactDetails["DefinitionName"];
+                }
+
+                if (artifactDetails.ContainsKey("DefinitionId"))
+                {
+                    buildArtifactDetails.DefintionId = Convert.ToInt32(artifactDetails["DefinitionId"], CultureInfo.InvariantCulture);
+                }
+
+                return buildArtifactDetails;
             }
             else
             {
