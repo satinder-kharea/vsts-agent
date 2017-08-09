@@ -278,7 +278,7 @@ namespace Microsoft.VisualStudio.Services.Agent.Worker.Release.Artifacts
 
                 if (build != null && build.Definition.Id != buildArtifactDetails.DefintionId)
                 {
-                    string errorMessage = StringUtil.Loc("ArtifactNotFromLinkedDefinition", artifactDefinition.Name, buildArtifactDetails.DefinitionName);
+                    string errorMessage = StringUtil.Loc("RMBuildNotFromLinkedDefinition", artifactDefinition.Name, buildArtifactDetails.DefinitionName);
                     throw new ArtifactDownloadException(errorMessage);
                 }
             }
